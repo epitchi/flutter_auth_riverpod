@@ -1,10 +1,12 @@
 import 'package:auth_riverpod/core/api/endpoints.dart';
 import 'package:auth_riverpod/features/user/data/error_data.dart';
 import 'package:auth_riverpod/features/user/requests/user_request.dart';
+import 'package:auth_riverpod/main.dart';
 import 'package:dio/dio.dart';
 
 import 'package:auth_riverpod/features/user/data/user_data.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class UserRepository {
   Future<dynamic> login(UserRequest req);
@@ -29,6 +31,17 @@ class UserRepositoryImpl implements UserRepository {
       return UserResponse.fromJson(response.data);
     } on DioError catch (ex) {
       return ErrorResponse.fromJson(ex.response?.data);
+    }
+  }
+  
+  Future<dynamic> fetchSub(String email) async {
+    try {
+      final data = await supabase.rpc('get_subscription_v2', params: {
+        "email": email 
+      });
+
+      if ()
+
     }
   }
 }

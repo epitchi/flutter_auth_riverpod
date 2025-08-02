@@ -1,13 +1,23 @@
+import 'package:auth_riverpod/core/api/endpoints.dart';
 import 'package:auth_riverpod/features/user/repositories/auth_repository.dart';
 import 'package:auth_riverpod/screens/dashboard/dashboard_screen.dart';
 import 'package:auth_riverpod/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: Endpoints.supabaseUrl,
+    anonKey: Endpoints.supabaseAnonKey 
+  );
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
+final supabase = Supabase.instance.client;
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
   @override
